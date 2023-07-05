@@ -15,13 +15,13 @@ class TaskRepository(private val tasksDao: TaskDao) {
         const val PAGE_SIZE = 30
         const val PLACEHOLDERS = true
 
-        private val applicationScope = CoroutineScope(SupervisorJob())
 
         @Volatile
         private var instance: TaskRepository? = null
 
         fun getInstance(context: Context): TaskRepository {
             return instance ?: synchronized(this) {
+                val applicationScope = CoroutineScope(SupervisorJob())
                 if (instance == null) {
                     val database = TaskDatabase.getInstance(context, applicationScope)
                     instance = TaskRepository(database.taskDao())

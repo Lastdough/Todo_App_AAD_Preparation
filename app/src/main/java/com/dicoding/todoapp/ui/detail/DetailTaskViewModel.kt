@@ -14,11 +14,11 @@ class DetailTaskViewModel(private val taskRepository: TaskRepository): ViewModel
     }
     val task: LiveData<Task> = _task
 
-    fun setTaskId(taskId: Int) {
+    fun setTaskId(taskId: Int?) {
         if (taskId == _taskId.value) {
             return
         }
-        _taskId.value = taskId
+        _taskId.value = taskId!!
     }
 
     fun deleteTask() {

@@ -44,7 +44,6 @@ class TaskRepository(private val tasksDao: TaskDao) {
             .build()
 
         return LivePagedListBuilder(tasks, configuration).build()
-//        throw NotImplementedError("Not yet implemented")
     }
 
     fun getTaskById(taskId: Int): LiveData<Task> {

@@ -21,11 +21,6 @@ class DetailTaskActivity : AppCompatActivity() {
         setContentView(R.layout.activity_task_detail)
         //TODO 11 : Show detail task and implement delete action
 
-        val tietTitle = findViewById<TextInputEditText>(R.id.detail_ed_title)
-        val tietDecription = findViewById<TextInputEditText>(R.id.detail_ed_description)
-        val tietDueDate = findViewById<TextInputEditText>(R.id.detail_ed_due_date)
-        val btnDeleteTask = findViewById<Button>(R.id.btn_delete_task)
-
         val factory = ViewModelFactory.getInstance(this)
         detailTaskViewModel = ViewModelProvider(this, factory)[DetailTaskViewModel::class.java]
 
@@ -33,13 +28,17 @@ class DetailTaskActivity : AppCompatActivity() {
         detailTaskViewModel.setTaskId(taskId)
 
         val taskObserver = Observer<Task> {
-            tietTitle.setText(it.title)
-            tietDecription.setText(it.description)
-            tietDueDate.setText(DateConverter.convertMillisToString(it.dueDateMillis))
+            findViewById<TextInputEditText>(R.id.detail_ed_title).setText(it.title)
+            findViewById<TextInputEditText>(R.id.detail_ed_description).setText(it.description)
+            findViewById<TextInputEditText>(R.id.detail_ed_due_date).setText(
+                DateConverter.convertMillisToString(
+                    it.dueDateMillis
+                )
+            )
         }
         detailTaskViewModel.task.observe(this, taskObserver)
 
-        btnDeleteTask.setOnClickListener {
+        findViewById<Button>(R.id.btn_delete_task).setOnClickListener {
             detailTaskViewModel.task.removeObserver(taskObserver)
             detailTaskViewModel.deleteTask()
             finish()
